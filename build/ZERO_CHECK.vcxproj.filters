@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\demps\OneDrive\Desktop\Code\Pauli_Arithmetic\Modul\build\CMakeFiles\dbc2a514b4536dd00626010782c3b69a\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{7771000B-E16C-32EC-BBC5-E1C30BB0C970}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

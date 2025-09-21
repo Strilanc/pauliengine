@@ -1,0 +1,5 @@
+C:/Users/demps/OneDrive/Desktop/Code/Pauli_Arithmetic/Modul/build/CMakeFiles/pauliArithmetic.dir
+C:/Users/demps/OneDrive/Desktop/Code/Pauli_Arithmetic/Modul/build/CMakeFiles/nanobind-static.dir
+C:/Users/demps/OneDrive/Desktop/Code/Pauli_Arithmetic/Modul/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/demps/OneDrive/Desktop/Code/Pauli_Arithmetic/Modul/build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/demps/OneDrive/Desktop/Code/Pauli_Arithmetic/Modul/build/nanobind/CMakeFiles/ALL_BUILD.dir
