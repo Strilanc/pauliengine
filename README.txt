@@ -14,6 +14,9 @@
 
 Step 1 install conan via pip install conan
 
+#once
+'conan profile detect
+
 isntall symengine:
 conan install --requires="symengine/[*]"
 
