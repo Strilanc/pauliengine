@@ -489,6 +489,10 @@ class PauliString {
                         #endif
                 }
 
+                bool equals(const PauliString& other) {
+                        return this.x == other.x && this.y == other.y && this.coeff == other.coeff;
+                }
+
         private:
                 static set_basic get_free_symbols(const Expression& expr) {
                         vec_basic args = expr.get_basic()->get_args();
