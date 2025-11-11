@@ -24,7 +24,6 @@ Before you begin, make sure you have the following installed:
 
 Install Conan via `pip`:
 
-```bash
 pip install conan
 ---
 ##  Step 2: Install SymEngine
