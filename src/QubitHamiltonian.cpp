@@ -268,6 +268,8 @@ NB_MODULE(PauliEngine, m) {
                 .def("__mul__", nb::overload_cast<const std::complex<double>>(&PauliString<>::operator*), "Scale PauliString by complex scalar")
                 .def("__imul__", nb::overload_cast<const std::complex<double>>(&PauliString<>::operator*=), "In-place scale")
                 .def("__imul__", nb::overload_cast<PauliString<>>(&PauliString<>::operator*=), "In-place multiply")
+                .def("__repr__",  &PauliString<>::to_string, "Returns a human-readable string representation of the Pauli string.")
+                .def("__str__",  &PauliString<>::to_string, "Returns a human-readable string representation of the Pauli string.")
                 .def("__eq__", &PauliString<>::equals, "Checks if 2 PauliStrings have same data and Coefficient")
                 .def("diff", &PauliString<>::key_openfermion, "Returns Paulistring in Openfermion format")
                 .def("qubits", &PauliString<>::qubits, "Returns list of qubits")
