@@ -9,7 +9,7 @@ The following items are planned or not yet fully implemented:
     
 -   A comprehensive test suite.
 
-# Example I 
+# Examples 
 
 ### Operator Construction
 ```python
