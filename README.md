@@ -1,4 +1,4 @@
-# ⚙️ SymEngine Installation and Build Guide 
+# SymEngine Installation and Build Guide 
 
   
 
@@ -10,7 +10,7 @@ This guide explains how to install and build **SymEngine** and integrate it into
 
   
 
-## 🧰 Prerequisites
+## Prerequisites
 
   
 
