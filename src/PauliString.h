@@ -6,6 +6,7 @@
 #include <iostream>
 #include <bit>
 #include <functional>
+#include <cstdint>
 
 
 #ifdef HAVE_SYMENGINE
@@ -95,6 +96,7 @@ class PauliString {
                         }
                 }
 
+#ifdef HAVE_SYMENGINE
                 PauliString(const std::unordered_map<int, std::string>& data, Expression coeff) {
                         this->coeff = coeff;
                         uint64_t mask;
@@ -117,6 +119,7 @@ class PauliString {
                                 }
                         }
                 }
+#endif
 
                 PauliString(const std::vector<uint64_t>& x, const std::vector<uint64_t>& y, Coeff coeff) {
                         this->x = x;
@@ -175,9 +178,9 @@ class PauliString {
                 PauliString &operator*=(const PauliString& other) {
                         // Source: https://arxiv.org/pdf/2103.02202 figure 12
 
-                        const uint64_t *x1 = x.data();
-                        const uint64_t *x2 = y.data();
-                        const uint64_t *y1 = other.x.data();
+                        uint64_t *x1 = x.data();
+                        uint64_t *y1 = y.data();
+                        const uint64_t *x2 = other.x.data();
                         const uint64_t *y2 = other.y.data();
                         size_t n1 = x.size();
                         size_t n2 = other.x.size();
@@ -201,13 +204,13 @@ class PauliString {
                         }
 
                         // Update coefficient accounting for factors of i gained from Pauli multiplications.
-                        coef *= other.coeff;
+                        coeff *= other.coeff;
                         int power_of_i = 2 * std::popcount(c2) - std::popcount(c1);
                         if (power_of_i & 1) {
-                            coef *= std::complex<double>(0.0, 1.0)
+                            coeff *= std::complex<double>(0.0, 1.0);
                         }
                         if (power_of_i & 2) {
-                            coef = -coef;
+                            coeff = -coeff;
                         }
 
                         // Automatically extend length if needed.
@@ -233,35 +236,6 @@ class PauliString {
 
                 PauliString& operator*=(const std::complex<double> scalar)  {
                         this->coeff*= scalar;
-                        return *this;
-                }
-
-                PauliString& operator*=(PauliString other) {
-                        size_t max_length = std::max(this->x.size(), other.x.size());
-                        Coeff coeff_temp = this->coeff * other.coeff;
-                        this->x.resize(max_length, 0);
-                        this->y.resize(max_length, 0);
-                        other.x.resize(max_length, 0);
-                        other.y.resize(max_length, 0);
-                        for (int i = 0; i < max_length; i++) {
-                                this->x[i] = this->x[i] ^ other.x[i];
-                                this->y[i] = this->y[i] ^ other.y[i];
-                        }
-                        int first_fac = 0;
-                        int second_fac = 0;
-                        for (int i = 0; i < max_length; i++) {
-                                first_fac += std::popcount((~this->x[i] & other.x[i] & this->y[i] & other.y[i]) ^ (this->x[i] & ~other.x[i] & ~this->y[i] & other.y[i]) ^ (this->x[i] & other.x[i] & this->y[i] & ~other.y[i]));
-                                second_fac += std::popcount((~this->x[i] & other.x[i] & this->y[i] & ~other.y[i]) ^ (this->x[i] & ~other.x[i] & this->y[i] & other.y[i]) ^ (this->x[i] & other.x[i] & ~this->y[i] & other.y[i]));
-                        }
-                        int tau = first_fac - second_fac;
-                        std::complex<double> coeff_new{1.0, 0.0};
-                        while (tau < 0) {
-                                tau += 4;
-                        }
-                        for (int i = 0; i < tau % 4; i++) {
-                                coeff_new *= Unit_matrix;
-                        }
-                        this->coeff = coeff_temp * coeff_new;
                         return *this;
                 }
 
@@ -316,7 +290,11 @@ class PauliString {
                 std::string to_string() const {
                         std::ostringstream oss;
                         size_t num_qubits = x.size() * BITS_IN_INTEGER;
+#ifdef HAVE_SYMENGINE
                         oss << str(this->coeff) << " : ";
+#else
+                        oss << this->coeff << " : ";
+#endif
                         for (size_t i = 0; i < num_qubits; ++i) {
                                 size_t word = i / BITS_IN_INTEGER;
                                 size_t bit = i % BITS_IN_INTEGER;
@@ -379,9 +357,11 @@ class PauliString {
                         #endif
                 }
 
+#ifdef HAVE_SYMENGINE
                 void set_coeff(SymEngine::Expression new_coeff) {
                         this->coeff = new_coeff;
                 }
+#endif
 
                 void set_coeff(std::complex<double> new_coeff) {
                         this->coeff = new_coeff;
@@ -514,6 +494,7 @@ class PauliString {
                         return this->x == other.x && this->y == other.y && PauliString::to_complex(this->coeff) == PauliString::to_complex(other.coeff);
                 }
 
+#ifdef HAVE_SYMENGINE
                 static std::complex<double> to_complex(const Expression &expr) {
                         const auto &basic = *expr.get_basic();
 
@@ -537,10 +518,12 @@ class PauliString {
                                 }
                         }
                 }
+#endif
 
                 
 
         private:
+#ifdef HAVE_SYMENGINE
                 static set_basic get_free_symbols(const Expression& expr) {
                         vec_basic args = expr.get_basic()->get_args();
                         set_basic symbols;
@@ -551,6 +534,7 @@ class PauliString {
                         }
                         return symbols;            
                 }
+#endif
 
 };
 
